@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.zhovnirchuk.practice">
-	</context:component-scan>
+	<context:component-scan base-package="com.zhovnirchuk.practice" />
 
 	<bean id="truckBean" class="com.zhovnirchuk.practice.Truck">
 		<constructor-arg value="Volvo" />
@@ -15,5 +16,21 @@
 	<bean id="sedanBean" class="com.zhovnirchuk.practice.Sedan">
 		<constructor-arg value="BMW" />
 	</bean>
+
+	<bean id="driverBean" class="com.zhovnirchuk.practice.Driver" />
+
+	<aop:config>
+		<aop:aspect ref="driverBean">
+			<aop:pointcut
+				expression="execution(* com.zhovnirchuk.practice.Car.drive())"
+				id="drive" />
+			<aop:before pointcut-ref="drive" method="repairCar" />
+			<aop:after pointcut-ref="drive" method="washCar" />
+		</aop:aspect>
+	</aop:config>
+	
+	<bean id="passengerBean" class="com.zhovnirchuk.practice.Passenger" />
+	
+	<aop:aspectj-autoproxy />
 
 </beans>

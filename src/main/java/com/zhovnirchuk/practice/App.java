@@ -10,9 +10,9 @@ public class App
     {
     	ApplicationContext context = new ClassPathXmlApplicationContext("SpringBeans.xml");
     	
-        Truck t = (Truck) context.getBean("truckBean");
+        Car t = (Car) context.getBean("truckBean");
     	t.drive();
-    	Sedan s = (Sedan) context.getBean("sedanBean");
+    	Car s = (Car) context.getBean("sedanBean");
     	s.drive();
     	
     }
